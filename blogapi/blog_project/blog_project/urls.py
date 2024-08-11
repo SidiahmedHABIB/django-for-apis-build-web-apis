@@ -19,8 +19,8 @@ from django.urls import include, path # new
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('posts.urls')), # new
-    path('api-auth/', include('rest_framework.urls')), # new
-
-
+    path('api/v1/', include('posts.urls')),  # Your app URLs
+    path('api-auth/', include('rest_framework.urls')),  # REST framework login/logout views
+    path('api/v1/rest-auth/', include('dj_rest_auth.urls')),  # Dj-Rest-Auth endpoints
+    path('api/v1/rest-auth/registration/', include('dj_rest_auth.registration.urls')),  # Registration endpoint
 ]

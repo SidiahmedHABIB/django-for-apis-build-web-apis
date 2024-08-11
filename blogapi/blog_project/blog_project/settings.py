@@ -40,6 +40,15 @@ INSTALLED_APPS = [
 
     # 3rd-party apps
     'rest_framework', # new
+    'rest_framework.authtoken', # new
+    'allauth', # new
+    'allauth.account', # new
+    'allauth.socialaccount', # new
+    'dj_rest_auth',  # Authentication and Registration with REST
+    'dj_rest_auth.registration',  # Registration via REST
+
+
+
 
     # Local
     'posts.apps.PostsConfig', # new
@@ -49,8 +58,22 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated', # new
-    ]
+    ],
+    
+    'DEFAULT_AUTHENTICATION_CLASSES': [ # new
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication', # new
+    ],
 }
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+# Email backend for testing
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Required for Django Allauth
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -60,6 +83,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  # Add this line
+
 ]
 
 ROOT_URLCONF = 'blog_project.urls'
