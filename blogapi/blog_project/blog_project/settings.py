@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     # 3rd-party apps
     'rest_framework', # new
     'rest_framework.authtoken', # new
+    'rest_framework_swagger', # new
     'allauth', # new
     'allauth.account', # new
     'allauth.socialaccount', # new
     'dj_rest_auth',  # Authentication and Registration with REST
     'dj_rest_auth.registration',  # Registration via REST
+    'drf_yasg',
 
 
 
@@ -75,6 +77,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Required for Django Allauth
 SITE_ID = 1
 
+SWAGGER_SETTINGS = {
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout',
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -16,11 +16,37 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path # new
+from rest_framework.schemas import get_schema_view # new
+from rest_framework_swagger.views import get_swagger_view # new
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
+# API_TITLE = 'Blog API'
+# API_DESCRIPTION = 'A Web API for creating and editing blog posts.'
+# schema_view = get_swagger_view(title=API_TITLE) # new
+API_TITLE = 'Blog API'
+API_DESCRIPTION = 'A Web API for creating and editing blog posts.'
+schema_view = get_schema_view(
+    openapi.Info(
+        title=API_TITLE,
+        default_version='v1',
+        description=API_DESCRIPTION,
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@blogapi.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('posts.urls')),  # Your app URLs
     path('api-auth/', include('rest_framework.urls')),  # REST framework login/logout views
     path('api/v1/rest-auth/', include('dj_rest_auth.urls')),  # Dj-Rest-Auth endpoints
     path('api/v1/rest-auth/registration/', include('dj_rest_auth.registration.urls')),  # Registration endpoint
+    # path('schema/', schema_view), # new
+    # path('swagger-docs/', schema_view), # new
+    path('swagger-docs/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-docs'),
+
 ]
